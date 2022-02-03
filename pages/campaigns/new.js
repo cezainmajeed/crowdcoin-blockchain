@@ -4,7 +4,7 @@ import factory from "../../ethereum/factory";
 import web3 from "../../ethereum/web3";
 import { Router } from "../../routes";
 
-import { Button, Checkbox, Form, Input, Message } from 'semantic-ui-react';
+import { Button, Form, Input, Message } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 class CampaignNew extends Component {
