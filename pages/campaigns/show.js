@@ -11,8 +11,10 @@ class CampaignShow extends Component {
   static async getInitialProps(props) {
     const campaign = Campaign(props.query.address);
     const summary = await campaign.methods.getSummary().call();
-    console.log(summary);
+    const address = props.query.address;
+    //console.log(address);
     return {
+      address:address,
       minimumContribution:summary[0],
       balance:summary[1],
       requestsCount:summary[2],
@@ -23,6 +25,7 @@ class CampaignShow extends Component {
 
   renderCards() {
     const {
+      address,
       minimumContribution,
       balance,
       requestsCount,
@@ -59,6 +62,10 @@ class CampaignShow extends Component {
   }
 
   render(){
+    const {
+      address
+    } = this.props;
+
     return(
       <Layout>
       <h1>Campaign Details</h1>
@@ -67,7 +74,7 @@ class CampaignShow extends Component {
       {this.renderCards()}
       </Grid.Column>
       <Grid.Column width={6}>
-      <ContributeForm/>
+      <ContributeForm address = {address} />
       </Grid.Column>
       </Grid>
       </Layout>
