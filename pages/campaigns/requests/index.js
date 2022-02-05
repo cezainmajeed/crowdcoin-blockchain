@@ -2,8 +2,9 @@ import React ,{ Component } from "react";
 import Layout from "../../../components/Layout";
 import { Link } from "../../../routes";
 import Campaign from "../../../ethereum/campaign";
+import RequestRow from "../../../components/RequestRow";
 
-import { Button } from 'semantic-ui-react';
+import { Button, Table } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 class RequestIndex extends Component {
@@ -11,6 +12,7 @@ class RequestIndex extends Component {
     const { address } = props.query;
     const campaign = Campaign(address);
     const requestCount = await campaign.methods.getRequestCount().call();
+    const approversCount = await campaign.methods.approversCount().call();
 
     const requests = await Promise.all(
      Array(parseInt(requestCount))
@@ -21,17 +23,50 @@ class RequestIndex extends Component {
 
      //console.log(requests);
 
-    return { address, requests, requestCount };
+    return { address, requests, requestCount, approversCount };
   }
+
+  renderRow(){
+    return this.props.requests.map((request, index)=>{
+      return (
+        <RequestRow
+          key={index}
+          id={index}
+          request={request}
+          address={this.props.address}
+          approversCount={this.props.approversCount}
+        />
+      );
+    });
+  }
+
   render(){
+    const { Header, Row, Body, HeaderCell } = Table;
     return (
       <Layout>
       <h1>Requests</h1>
       <Link route={`/campaigns/${this.props.address}/requests/new`}>
       <a>
-      <Button floated="right" primary>Add Request</Button>
+      <Button style={{marginBottom:"15px"}} floated="right" primary>Add Request</Button>
       </a>
       </Link>
+      <Table>
+        <Header>
+          <Row>
+            <HeaderCell>ID</HeaderCell>
+            <HeaderCell>Description</HeaderCell>
+            <HeaderCell>Amount</HeaderCell>
+            <HeaderCell>Recipient</HeaderCell>
+            <HeaderCell>Approval Count</HeaderCell>
+            <HeaderCell>Approve</HeaderCell>
+            <HeaderCell>Finalize</HeaderCell>
+          </Row>
+        </Header>
+        <Body>
+        {this.renderRow()}
+        </Body>
+      </Table>
+      <div>Found {this.props.requestCount} requests.</div>
       </Layout>
     );
   }
