@@ -9,6 +9,7 @@ import 'semantic-ui-css/semantic.min.css';
 
 class CampaignNew extends Component {
   state ={
+    campaignDescription : "",
     minimumContribution :"",
     errorMessage:"",
     loading:false
@@ -20,7 +21,7 @@ class CampaignNew extends Component {
     try {
       const accounts = await web3.eth.getAccounts();
       await factory.methods
-        .createCampaign(this.state.minimumContribution)
+        .createCampaign(this.state.minimumContribution,this.state.campaignDescription)
         .send({
           from:accounts[0]
         });
@@ -37,6 +38,14 @@ class CampaignNew extends Component {
       <Layout>
       <h1>Create a Campaign!</h1>
       <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
+
+        <Form.TextArea
+          label='Description'
+          placeholder='Tell us more about your project...'
+          value={this.state.campaignDescription}
+          onChange = {event=> this.setState({campaignDescription : event.target.value})}
+        />
+
         <Form.Field>
           <label>Minimum Contribution</label>
           <Input

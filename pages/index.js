@@ -3,6 +3,7 @@ import { Card,Button,Icon } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 import factory from "../ethereum/factory";
+import Campaign from "../ethereum/campaign";
 import Layout from "../components/Layout";
 import { Link } from "../routes";
 
@@ -14,6 +15,7 @@ class CampaignIndex extends Component {
   }
 
   renderCampaigns(){
+    console.log(this.props);
     const items = this.props.campaigns.map( address =>{
       return {
         header :address,

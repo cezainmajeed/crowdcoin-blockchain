@@ -16,17 +16,19 @@ class CampaignShow extends Component {
     //console.log(address);
     return {
       address:address,
-      minimumContribution:summary[0],
-      balance:summary[1],
-      requestsCount:summary[2],
-      approversCount:summary[3],
-      manager:summary[4]
+      campaignDescription:summary[0],
+      minimumContribution:summary[1],
+      balance:summary[2],
+      requestsCount:summary[3],
+      approversCount:summary[4],
+      manager:summary[5]
     };
   }
 
   renderCards() {
     const {
       address,
+      campaignDescription,
       minimumContribution,
       balance,
       requestsCount,
@@ -59,7 +61,12 @@ class CampaignShow extends Component {
       }
     ];
 
-    return <Card.Group items={items} /> ;
+    return (
+      <>
+      <h3>{campaignDescription}</h3>
+      <Card.Group items={items} />
+      </>
+    );
   }
 
   render(){
